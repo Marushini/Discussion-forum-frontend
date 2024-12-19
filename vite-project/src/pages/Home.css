@@ -1,0 +1,96 @@
+/* Global Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .home-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #007bff, #28a745);
+    animation: backgroundAnimation 8s infinite alternate ease-in-out;
+    text-align: center;
+    color: white;
+  }
+  
+  @keyframes backgroundAnimation {
+    0% { background: linear-gradient(135deg, #007bff, #28a745); }
+    100% { background: linear-gradient(135deg, #28a745, #007bff); }
+  }
+  
+  .home-title {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+    animation: typewriter 2s steps(14) forwards;
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 4px solid white;
+  }
+  
+  @keyframes typewriter {
+    from { width: 0; }
+    to { width: 100%; }
+  }
+  
+  .home-description {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    animation: fadeIn 3s ease;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  /* Cards Style */
+  .home-card-container {
+    display: flex;
+    gap: 2rem;
+  }
+  
+  .home-card {
+    width: 250px;
+    padding: 2rem;
+    background: white;
+    color: #333;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  
+  .home-card h2 {
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
+  }
+  
+  .home-card p {
+    font-size: 1rem;
+  }
+  
+  .home-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 16px rgba(255, 65, 65, 0.3);
+  }
+  
+  .login-card {
+    background: #007bff;
+    color: white;
+  }
+  
+  .register-card {
+    background: #28a745;
+    color: white;
+  }
+  
