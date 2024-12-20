@@ -88,7 +88,7 @@ function Discussion() {
                 <p key={reply._id} style={styles.replyItem}>- {reply.content}</p>
               ))
             ) : (
-              <p>No replies yet</p>
+              <p>No replies </p>
             )}
             <form
               onSubmit={(e) => {

@@ -11,15 +11,22 @@ body {
   color: #333;
 }
 
-/* Main Container */
-.post-list {
+/* Scrollable Container */
+.scrollable-box {
   width: 80%;
   max-width: 900px;
+  max-height: 90vh;  /* Max height for scrolling */
   margin: 40px auto;
   padding: 20px;
   background: #ffffff;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;  /* Enables scrolling */
+}
+
+/* Main Container */
+.post-list {
+  width: 100%;
 }
 
 /* Header */
@@ -230,7 +237,7 @@ body {
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .post-list {
+  .scrollable-box {
     width: 90%;
   }
 
