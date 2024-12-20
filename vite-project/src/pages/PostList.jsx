@@ -7,13 +7,13 @@ function PostList() {
   const [error, setError] = useState('');
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [activeReplyPostId, setActiveReplyPostId] = useState(null);
   const [replyContent, setReplyContent] = useState('');
+  const [activeReplyPostId, setActiveReplyPostId] = useState(null);
 
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const token = localStorage.getItem('token') || '123456';
+        const token = localStorage.getItem('token');
         const response = await axios.get(
           'https://final-backend-d6dq.onrender.com/api/posts',
           { headers: { Authorization: `Bearer ${token}` } }
@@ -29,7 +29,7 @@ function PostList() {
   const handlePostSubmit = async (e) => {
     e.preventDefault();
     try {
-      const token = localStorage.getItem('token') || '123456';
+      const token = localStorage.getItem('token');
       const response = await axios.post(
         'https://final-backend-d6dq.onrender.com/api/posts',
         { title, content },
@@ -43,53 +43,48 @@ function PostList() {
     }
   };
 
-  const handleLike = async (postId) => {
-    try {
-      const token = localStorage.getItem('token') || '123456';
-      const response = await axios.post(
-        `https://final-backend-d6dq.onrender.com/api/posts/${postId}/like`,
-        {},
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      setPosts(posts.map(post => (post._id === postId ? response.data : post)));
-    } catch (err) {
-      console.error('Like Error:', err.message);
-    }
-  };
-
-  const handleDislike = async (postId) => {
-    try {
-      const token = localStorage.getItem('token') || '123456';
-      const response = await axios.post(
-        `https://final-backend-d6dq.onrender.com/api/posts/${postId}/dislike`,
-        {},
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      setPosts(posts.map(post => (post._id === postId ? response.data : post)));
-    } catch (err) {
-      console.error('Dislike Error:', err.message);
-    }
-  };
-
-  const toggleReplyBox = (postId) => {
-    setActiveReplyPostId(activeReplyPostId === postId ? null : postId);
-    setReplyContent('');
-  };
-
   const handleReplySubmit = async (postId, e) => {
     e.preventDefault();
     try {
-      const token = localStorage.getItem('token') || '123456';
+      const token = localStorage.getItem('token');
       const response = await axios.post(
         `https://final-backend-d6dq.onrender.com/api/posts/${postId}/replies`,
         { content: replyContent },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      setPosts(posts.map(post => (post._id === postId ? response.data : post)));
-      setActiveReplyPostId(null);
+      setPosts(posts.map((post) => (post._id === postId ? response.data : post)));
       setReplyContent('');
+      setActiveReplyPostId(null);
     } catch (err) {
       console.error('Reply Error:', err.message);
+    }
+  };
+
+  const handleLikeReply = async (postId, replyId) => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.post(
+        `https://final-backend-d6dq.onrender.com/api/posts/${postId}/replies/${replyId}/like`,
+        {},
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setPosts(posts.map((post) => (post._id === postId ? response.data : post)));
+    } catch (err) {
+      console.error('Like Reply Error:', err.message);
+    }
+  };
+
+  const handleDislikeReply = async (postId, replyId) => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.post(
+        `https://final-backend-d6dq.onrender.com/api/posts/${postId}/replies/${replyId}/dislike`,
+        {},
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setPosts(posts.map((post) => (post._id === postId ? response.data : post)));
+    } catch (err) {
+      console.error('Dislike Reply Error:', err.message);
     }
   };
 
@@ -124,25 +119,23 @@ function PostList() {
             <div className="post-card" key={post._id}>
               <h2 className="post-title">{post.title}</h2>
               <p className="post-content">{post.content}</p>
-              <div className="post-footer">
-                <button className="like-btn" onClick={() => handleLike(post._id)}>Like</button>
-                <span>Likes: {post.likes}</span>
-                <button className="dislike-btn" onClick={() => handleDislike(post._id)}>Dislike</button>
-                <span>Dislikes: {post.dislikes}</span>
-                <button
-                  className="reply-toggle-btn"
-                  onClick={() => toggleReplyBox(post._id)}
-                >
-                  {activeReplyPostId === post._id ? 'Cancel' : 'Reply'}
-                </button>
-              </div>
+
+              <button
+                className="reply-toggle-btn"
+                onClick={() =>
+                  setActiveReplyPostId(
+                    activeReplyPostId === post._id ? null : post._id
+                  )
+                }
+              >
+                {activeReplyPostId === post._id ? 'Cancel' : 'Reply'}
+              </button>
 
               {activeReplyPostId === post._id && (
                 <form
                   className="reply-form"
                   onSubmit={(e) => handleReplySubmit(post._id, e)}
                 >
-                  <label>Add a Reply:</label>
                   <textarea
                     value={replyContent}
                     onChange={(e) => setReplyContent(e.target.value)}
@@ -155,9 +148,25 @@ function PostList() {
               <div className="replies-section">
                 <h3>Replies:</h3>
                 {post.replies?.map((reply) => (
-                  <p key={reply._id} className="reply-item">
-                    {reply.content}
-                  </p>
+                  <div className="reply-item" key={reply._id}>
+                    <p>{reply.content}</p>
+                    <div className="reply-actions">
+                      <button
+                        className="like-btn"
+                        onClick={() => handleLikeReply(post._id, reply._id)}
+                      >
+                        Like
+                      </button>
+                      <span>Likes: {reply.likes}</span>
+                      <button
+                        className="dislike-btn"
+                        onClick={() => handleDislikeReply(post._id, reply._id)}
+                      >
+                        Dislike
+                      </button>
+                      <span>Dislikes: {reply.dislikes}</span>
+                    </div>
+                  </div>
                 ))}
               </div>
             </div>
