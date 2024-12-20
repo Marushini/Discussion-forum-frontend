@@ -1,4 +1,4 @@
-/* Global Reset */
+/* General Reset */
 * {
   margin: 0;
   padding: 0;
@@ -6,80 +6,74 @@
 }
 
 body {
-  font-family: 'Arial', sans-serif;
-  background: linear-gradient(135deg, #007bff, #28a745);
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  padding: 2rem;
-  overflow-y: auto;
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f9;
+  color: #333;
 }
 
+/* Main Container */
 .post-list {
-  background: white;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 80%;
   max-width: 900px;
-  width: 100%;
-  max-height: 85vh;
-  overflow-y: auto;
-  margin: auto;
+  margin: 40px auto;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Title */
+/* Header */
 .title {
   text-align: center;
   font-size: 2.5rem;
-  color: #333;
-  margin-bottom: 2rem;
+  color: #444;
+  margin-bottom: 20px;
 }
 
-/* Error */
+/* Error Message */
 .error {
   color: red;
-  font-size: 1.2rem;
+  font-weight: bold;
   text-align: center;
-  margin-bottom: 1rem;
+  margin-bottom: 15px;
 }
 
 /* Post Form */
 .post-form {
-  background: #f8f9fa;
-  padding: 2rem;
+  background: #f9f9f9;
+  padding: 20px;
   border-radius: 8px;
-  margin-bottom: 2rem;
+  margin-bottom: 30px;
 }
 
 .post-form h2 {
-  text-align: center;
-  margin-bottom: 1.5rem;
-  color: #333;
+  font-size: 1.8rem;
+  margin-bottom: 15px;
 }
 
 .post-form label {
-  font-size: 1rem;
   font-weight: bold;
+  margin: 5px 0;
 }
 
 .post-form input,
 .post-form textarea {
   width: 100%;
-  padding: 0.8rem;
-  margin: 0.5rem 0 1.5rem 0;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  padding: 10px;
+  margin: 10px 0 20px;
   font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
 }
 
 .post-form button {
-  width: 100%;
-  padding: 0.8rem;
   background: #007bff;
   color: white;
-  border: none;
-  border-radius: 4px;
   font-size: 1rem;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
   cursor: pointer;
   transition: background 0.3s ease;
 }
@@ -88,166 +82,174 @@ body {
   background: #0056b3;
 }
 
-/* Posts Container */
+/* Post Cards */
 .posts-container {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-/* Post Card */
-.post-card {
-  background: #ffffff;
-  padding: 1.5rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.post-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
-
-.post-title {
-  font-size: 1.8rem;
-  color: #333;
-  margin-bottom: 0.5rem;
-}
-
-.post-content {
-  font-size: 1rem;
-  color: #555;
-  margin-bottom: 1rem;
-}
-
-.post-footer {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.9rem;
-  color: #777;
+  margin-top: 20px;
 }
 
 .no-posts {
   text-align: center;
+  color: #777;
   font-size: 1.2rem;
+}
+
+.post-card {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.post-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #222;
+}
+
+.post-content {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  margin-bottom: 15px;
   color: #555;
 }
 
-/* Replies Section */
-.replies-section {
-  margin-top: 1rem;
-  background: #f1f1f1;
-  padding: 1rem;
-  border-radius: 6px;
+/* Reply Section */
+.reply-toggle-btn {
+  background: #28a745;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-bottom: 15px;
+  transition: background 0.3s ease;
 }
 
-.reply-item {
-  background: #e9ecef;
-  padding: 1rem;
-  border-radius: 6px;
-  margin-top: 0.5rem;
-}
-
-.reply-item p {
-  margin: 0;
+.reply-toggle-btn:hover {
+  background: #218838;
 }
 
 /* Reply Form */
 .reply-form {
+  margin-top: 15px;
   background: #f8f9fa;
-  padding: 1.5rem;
-  border-radius: 8px;
-  margin-top: 1rem;
-}
-
-.reply-form label {
-  font-weight: bold;
+  padding: 15px;
+  border-radius: 5px;
 }
 
 .reply-form textarea {
   width: 100%;
-  padding: 0.8rem;
-  margin: 0.5rem 0 1rem 0;
-  border: 1px solid #c01f1f;
-  border-radius: 4px;
+  padding: 10px;
   font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 10px;
 }
 
 .reply-form button {
-  width: 100%;
-  padding: 0.8rem;
   background: #007bff;
   color: white;
+  padding: 8px 16px;
   border: none;
-  border-radius: 4px;
-  font-size: 1rem;
+  border-radius: 5px;
   cursor: pointer;
-  transition: background 0.3s ease;
+  font-size: 1rem;
 }
 
 .reply-form button:hover {
   background: #0056b3;
 }
 
-/* Buttons */
-.like-btn,
-.dislike-btn,
-.reply-toggle-btn {
-  background: #007bff;
-  color: white;
-  padding: 0.6rem 1rem;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.9rem;
-  margin-right: 0.5rem;
-  transition: background 0.3s ease;
+/* Replies Section */
+.replies-section {
+  margin-top: 20px;
+  background: #f1f1f1;
+  padding: 15px;
+  border-radius: 5px;
 }
 
-.like-btn:hover,
-.dislike-btn:hover,
-.reply-toggle-btn:hover {
-  background: #0056b3;
+.replies-section h3 {
+  font-size: 1.6rem;
+  color: #333;
+  margin-bottom: 10px;
 }
 
-span {
-  margin-right: 1rem;
-  font-size: 0.9rem;
+.reply-item {
+  background: #ffffff;
+  padding: 15px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.reply-item p {
+  font-size: 1.2rem;
   color: #555;
+  margin-bottom: 10px;
 }
 
-/* Reply Actions */
 .reply-actions {
   display: flex;
-  gap: 1rem;
-  margin-top: 0.5rem;
+  align-items: center;
+  gap: 15px;
 }
 
 .reply-actions button {
-  padding: 0.5rem 1rem;
-  background: #007bff;
-  color: white;
+  padding: 6px 12px;
+  font-size: 1rem;
   border: none;
-  border-radius: 4px;
+  border-radius: 5px;
   cursor: pointer;
 }
 
-.reply-actions button:hover {
+.like-btn {
+  background: #007bff;
+  color: white;
+}
+
+.like-btn:hover {
   background: #0056b3;
+}
+
+.dislike-btn {
+  background: #dc3545;
+  color: white;
+}
+
+.dislike-btn:hover {
+  background: #c82333;
+}
+
+.reply-actions span {
+  font-size: 1rem;
+  color: #555;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
   .post-list {
-    padding: 1.5rem;
+    width: 90%;
+  }
+
+  .post-form input,
+  .post-form textarea,
+  .reply-form textarea {
+    font-size: 0.9rem;
   }
 
   .post-title {
     font-size: 1.5rem;
   }
 
-  .post-content {
+  .post-content,
+  .reply-item p {
     font-size: 1rem;
+  }
+
+  .reply-actions button {
+    font-size: 0.9rem;
   }
 }

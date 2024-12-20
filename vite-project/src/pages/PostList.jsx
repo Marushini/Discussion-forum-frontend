@@ -4,12 +4,13 @@ import './PostList.css';
 
 function PostList() {
   const [posts, setPosts] = useState([]);
-  const [error, setError] = useState('');
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [replyContent, setReplyContent] = useState('');
   const [activeReplyPostId, setActiveReplyPostId] = useState(null);
+  const [error, setError] = useState('');
 
+  // Fetch all posts
   useEffect(() => {
     const fetchPosts = async () => {
       try {
@@ -26,6 +27,7 @@ function PostList() {
     fetchPosts();
   }, []);
 
+  // Create a post
   const handlePostSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -43,6 +45,7 @@ function PostList() {
     }
   };
 
+  // Add a reply to a post
   const handleReplySubmit = async (postId, e) => {
     e.preventDefault();
     try {
@@ -52,39 +55,63 @@ function PostList() {
         { content: replyContent },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      setPosts(posts.map((post) => (post._id === postId ? response.data : post)));
+      setPosts(posts.map((post) =>
+        post._id === postId
+          ? { ...post, replies: [...post.replies, response.data] }
+          : post
+      ));
       setReplyContent('');
       setActiveReplyPostId(null);
     } catch (err) {
-      console.error('Reply Error:', err.message);
+      setError('Failed to add reply.');
     }
   };
 
+  // Like a reply
   const handleLikeReply = async (postId, replyId) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.post(
+      await axios.post(
         `https://final-backend-d6dq.onrender.com/api/posts/${postId}/replies/${replyId}/like`,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      setPosts(posts.map((post) => (post._id === postId ? response.data : post)));
+      setPosts(posts.map((post) =>
+        post._id === postId
+          ? {
+              ...post,
+              replies: post.replies.map((reply) =>
+                reply._id === replyId ? { ...reply, likes: reply.likes + 1 } : reply
+              ),
+            }
+          : post
+      ));
     } catch (err) {
-      console.error('Like Reply Error:', err.message);
+      setError('Failed to like reply.');
     }
   };
 
+  // Dislike a reply
   const handleDislikeReply = async (postId, replyId) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.post(
+      await axios.post(
         `https://final-backend-d6dq.onrender.com/api/posts/${postId}/replies/${replyId}/dislike`,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      setPosts(posts.map((post) => (post._id === postId ? response.data : post)));
+      setPosts(posts.map((post) =>
+        post._id === postId
+          ? {
+              ...post,
+              replies: post.replies.map((reply) =>
+                reply._id === replyId ? { ...reply, dislikes: reply.dislikes + 1 } : reply
+              ),
+            }
+          : post
+      ));
     } catch (err) {
-      console.error('Dislike Reply Error:', err.message);
+      setError('Failed to dislike reply.');
     }
   };
 
@@ -93,6 +120,7 @@ function PostList() {
       <h1 className="title">Discussion Board</h1>
       {error && <p className="error">{error}</p>}
 
+      {/* Create Post Form */}
       <form className="post-form" onSubmit={handlePostSubmit}>
         <h2>Create a Post</h2>
         <label>Title:</label>
@@ -147,27 +175,31 @@ function PostList() {
 
               <div className="replies-section">
                 <h3>Replies:</h3>
-                {post.replies?.map((reply) => (
-                  <div className="reply-item" key={reply._id}>
-                    <p>{reply.content}</p>
-                    <div className="reply-actions">
-                      <button
-                        className="like-btn"
-                        onClick={() => handleLikeReply(post._id, reply._id)}
-                      >
-                        Like
-                      </button>
-                      <span>Likes: {reply.likes}</span>
-                      <button
-                        className="dislike-btn"
-                        onClick={() => handleDislikeReply(post._id, reply._id)}
-                      >
-                        Dislike
-                      </button>
-                      <span>Dislikes: {reply.dislikes}</span>
+                {post.replies && post.replies.length > 0 ? (
+                  post.replies.map((reply) => (
+                    <div className="reply-item" key={reply._id}>
+                      <p>{reply.content}</p>
+                      <div className="reply-actions">
+                        <button
+                          className="like-btn"
+                          onClick={() => handleLikeReply(post._id, reply._id)}
+                        >
+                          Like
+                        </button>
+                        <span>Likes: {reply.likes}</span>
+                        <button
+                          className="dislike-btn"
+                          onClick={() => handleDislikeReply(post._id, reply._id)}
+                        >
+                          Dislike
+                        </button>
+                        <span>Dislikes: {reply.dislikes}</span>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))
+                ) : (
+                  <p>No replies yet</p>
+                )}
               </div>
             </div>
           ))
