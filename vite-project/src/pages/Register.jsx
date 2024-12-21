@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import './register.css';
+import './Register.css';
 
 function Register() {
   const [username, setUsername] = useState('');
@@ -32,7 +32,7 @@ function Register() {
   return (
     <div className="register-container">
       <form className="register-form" onSubmit={handleSubmit}>
-        <h2>Register</h2>
+        <h2>Register </h2>
 
         {error && <p className="error-message">{error}</p>}
         {success ? (
@@ -47,7 +47,7 @@ function Register() {
           </>
         ) : (
           <>
-            <label>Username:</label>
+            <label>Username: </label>
             <input
               type="text"
               value={username}
@@ -55,7 +55,7 @@ function Register() {
               required
             />
 
-            <label>Password:</label>
+            <label>Password: </label>
             <input
               type="password"
               value={password}
