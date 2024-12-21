@@ -17,7 +17,7 @@ function Home() {
         </Link>
 
         <Link to="/register" className="home-card register-card">
-          <h2>Register</h2>
+          <h2>Register </h2>
           <p>Create an account to start posting today!</p>
         </Link>
       </div>

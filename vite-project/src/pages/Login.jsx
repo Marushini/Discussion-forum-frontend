@@ -23,7 +23,7 @@ function Login() {
       // Navigate to the discussion page
       navigate('/posts');
     } catch (err) {
-      setError('Invalid credentials, please try again.');
+      setError('Invalid credentials , please try again.');
     }
   };
 
@@ -49,8 +49,8 @@ function Login() {
           required
           placeholder="Enter your password"
         />
-
-        <button type="submit">Login</button>
+      
+        <button type="submit">Login </button>
       </form>
     </div>
   );

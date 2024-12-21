@@ -21,7 +21,7 @@ function PostList() {
         );
         setPosts(response.data);
       } catch (err) {
-        setError('Failed to load posts. Please try again later.');
+        setError('Failed to load posts. Please try again later .');
       }
     };
     fetchPosts();
