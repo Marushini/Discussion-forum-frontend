@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import './register.css';
 
 function Register() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -14,10 +17,10 @@ function Register() {
 
     try {
       const response = await axios.post(
-        'https://final-backend-d6dq.onrender.com/api/auth/register', 
+        'https://final-backend-d6dq.onrender.com/api/auth/register',
         { username, password }
       );
-      
+
       console.log('Registered:', response.data);
       setSuccess('Registration successful!');
     } catch (err) {
@@ -27,30 +30,44 @@ function Register() {
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ textAlign: 'center', marginTop: '50px' }}>
-      <h2>Register</h2>
+    <div className="register-container">
+      <form className="register-form" onSubmit={handleSubmit}>
+        <h2>Register</h2>
 
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      {success && <p style={{ color: 'green' }}>{success}</p>}
+        {error && <p className="error-message">{error}</p>}
+        {success ? (
+          <>
+            <p className="success-message">{success}</p>
+            <button
+              type="button"
+              onClick={() => navigate('/')} // Redirect to home page
+            >
+              Go to Home
+            </button>
+          </>
+        ) : (
+          <>
+            <label>Username:</label>
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
 
-      <label>Username:</label><br />
-      <input 
-        type="text" 
-        value={username} 
-        onChange={(e) => setUsername(e.target.value)} 
-        required 
-      /><br />
-      
-      <label>Password:</label><br />
-      <input 
-        type="password" 
-        value={password} 
-        onChange={(e) => setPassword(e.target.value)} 
-        required 
-      /><br />
-      
-      <button type="submit">Register</button>
-    </form>
+            <label>Password:</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+
+            <button type="submit">Register</button>
+          </>
+        )}
+      </form>
+    </div>
   );
 }
 
