@@ -15,7 +15,7 @@
     align-items: center;
     justify-content: center;
     height: 80vh;
-    width:95vh;
+    width:120vh;
     background: linear-gradient(135deg, #007bff, #28a745);
     animation: backgroundAnimation 8s infinite alternate ease-in-out;
     text-align: center;
