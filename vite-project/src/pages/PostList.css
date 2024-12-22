@@ -89,6 +89,43 @@ body {
   background: #0056b3;
 }
 
+/* Edit Post Form */
+.edit-form {
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+}
+
+.edit-form h2 {
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+}
+
+.edit-form button {
+  background: #28a745;
+  color: white;
+  font-size: 1rem;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.edit-form button:hover {
+  background: #218838;
+}
+
+.edit-form .cancel-btn {
+  background: #dc3545;
+  margin-left: 10px;
+}
+
+.edit-form .cancel-btn:hover {
+  background: #c82333;
+}
+
 /* Post Cards */
 .posts-container {
   margin-top: 20px;
@@ -233,6 +270,20 @@ body {
 .reply-actions span {
   font-size: 1rem;
   color: #555;
+}
+
+/* Edit button */
+.edit-btn {
+  background-color: #ffc107;
+  color: white;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.edit-btn:hover {
+  background-color: #e0a800;
 }
 
 /* Responsive Design */

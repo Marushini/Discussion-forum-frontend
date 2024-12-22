@@ -9,6 +9,8 @@ function PostList() {
   const [replyContent, setReplyContent] = useState('');
   const [activeReplyPostId, setActiveReplyPostId] = useState(null);
   const [error, setError] = useState('');
+  const [editingPostId, setEditingPostId] = useState(null);
+  const [editingReplyId, setEditingReplyId] = useState(null);
 
   // Fetch all posts
   useEffect(() => {
@@ -19,9 +21,9 @@ function PostList() {
           'https://final-backend-d6dq.onrender.com/api/posts',
           { headers: { Authorization: `Bearer ${token}` } }
         );
-        setPosts(response.data);
+        setPosts(response.data.posts);  // Access the posts array
       } catch (err) {
-        setError('Failed to load posts. Please try again later .');
+        setError('Failed to load posts. Please try again later.');
       }
     };
     fetchPosts();
@@ -107,6 +109,86 @@ function PostList() {
     }
   };
 
+  // Edit post
+  const handleEditClick = (post) => {
+    setEditingPostId(post._id);
+    setTitle(post.title);
+    setContent(post.content);
+  };
+
+  // Update the post
+  const handleUpdatePost = async (e) => {
+    e.preventDefault();
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.put(
+        `https://final-backend-d6dq.onrender.com/api/posts/${editingPostId}`,
+        { title, content },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setPosts(
+        posts.map((post) =>
+          post._id === editingPostId
+            ? { ...post, title: response.data.title, content: response.data.content }
+            : post
+        )
+      );
+      setEditingPostId(null);
+      setTitle('');
+      setContent('');
+    } catch {
+      setError('Failed to update post.');
+    }
+  };
+
+  // Cancel editing
+  const handleCancelEdit = () => {
+    setEditingPostId(null);
+    setTitle('');
+    setContent('');
+  };
+
+  // Edit reply
+  const handleEditReplyClick = (reply) => {
+    setEditingReplyId(reply._id);
+    setReplyContent(reply.content);
+  };
+
+  // Update the reply
+  const handleUpdateReply = async (postId, replyId, e) => {
+    e.preventDefault();
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.put(
+        `https://final-backend-d6dq.onrender.com/api/posts/${postId}/replies/${replyId}`,
+        { content: replyContent },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setPosts(
+        posts.map((post) =>
+          post._id === postId
+            ? {
+                ...post,
+                replies: post.replies.map((reply) =>
+                  reply._id === replyId ? { ...reply, content: response.data.content } : reply
+                ),
+              }
+            : post
+        )
+      );
+      setEditingReplyId(null);
+      setReplyContent('');
+    } catch {
+      setError('Failed to update reply.');
+    }
+  };
+
+  // Cancel editing reply
+  const handleCancelEditReply = () => {
+    setEditingReplyId(null);
+    setReplyContent('');
+  };
+
   return (
     <div className="scrollable-box">
       <div className="post-list">
@@ -132,6 +214,30 @@ function PostList() {
           <button type="submit">Post</button>
         </form>
 
+        {/* Edit Post Form */}
+        {editingPostId && (
+          <form className="post-form" onSubmit={handleUpdatePost}>
+            <h2>Edit Post</h2>
+            <label>Title:</label>
+            <input
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              required
+            />
+            <label>Content:</label>
+            <textarea
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              required
+            />
+            <button type="submit">Update Post</button>
+            <button type="button" onClick={handleCancelEdit}>
+              Cancel
+            </button>
+          </form>
+        )}
+
         <div className="posts-container">
           {posts.length === 0 && !error ? (
             <p className="no-posts">No posts available</p>
@@ -140,6 +246,17 @@ function PostList() {
               <div className="post-card" key={post._id}>
                 <h2 className="post-title">{post.title}</h2>
                 <p className="post-content">{post.content}</p>
+                <p className="post-author">Posted by: {post.createdBy.username}</p>
+
+                {/* Edit button for posts */}
+                {post.createdBy.username === localStorage.getItem('username') && (
+                  <button
+                    className="edit-btn"
+                    onClick={() => handleEditClick(post)}
+                  >
+                    Edit Post
+                  </button>
+                )}
 
                 <button
                   className="reply-toggle-btn"
@@ -192,11 +309,44 @@ function PostList() {
                             Dislike
                           </button>
                           <span>Dislikes: {reply.dislikes}</span>
+
+                          {/* Edit button for replies */}
+                          {reply.createdBy.username === localStorage.getItem('username') && (
+                            <button
+                              className="edit-btn"
+                              onClick={() => handleEditReplyClick(reply)}
+                            >
+                              Edit Reply
+                            </button>
+                          )}
                         </div>
+
+                        {/* Edit reply form */}
+                        {editingReplyId === reply._id && (
+                          <form
+                            className="reply-form"
+                            onSubmit={(e) =>
+                              handleUpdateReply(post._id, reply._id, e)
+                            }
+                          >
+                            <textarea
+                              value={replyContent}
+                              onChange={(e) => setReplyContent(e.target.value)}
+                              required
+                            />
+                            <button type="submit">Update Reply</button>
+                            <button
+                              type="button"
+                              onClick={handleCancelEditReply}
+                            >
+                              Cancel
+                            </button>
+                          </form>
+                        )}
                       </div>
                     ))
                   ) : (
-                    <p>No replies yet</p>
+                    <p>No replies yet.</p>
                   )}
                 </div>
               </div>
