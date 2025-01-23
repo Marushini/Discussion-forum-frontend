@@ -18,7 +18,7 @@ function PostList() {
       try {
         const token = localStorage.getItem('token');
         const response = await axios.get(
-          'https://final-backend-d6dq.onrender.com/api/posts',
+          'https://discussion-forum-backend-67bc.onrender.com/api/posts',
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setPosts(response.data.posts);  // Access the posts array
@@ -35,7 +35,7 @@ function PostList() {
     try {
       const token = localStorage.getItem('token');
       const response = await axios.post(
-        'https://final-backend-d6dq.onrender.com/api/posts',
+        'https://discussion-forum-backend-67bc.onrender.com/api/posts',
         { title, content },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -53,7 +53,7 @@ function PostList() {
     try {
       const token = localStorage.getItem('token');
       const response = await axios.post(
-        `https://final-backend-d6dq.onrender.com/api/posts/${postId}/replies`,
+        `https://discussion-forum-backend-67bc.onrender.com/api/posts/${postId}/replies`,
         { content: replyContent },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -76,7 +76,7 @@ function PostList() {
     try {
       const token = localStorage.getItem('token');
       await axios.post(
-        `https://final-backend-d6dq.onrender.com/api/posts/${postId}/replies/${replyId}/${action}`,
+        `https://discussion-forum-backend-67bc.onrender.com/api/posts/${postId}/replies/${replyId}/${action}`,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -122,7 +122,7 @@ function PostList() {
     try {
       const token = localStorage.getItem('token');
       const response = await axios.put(
-        `https://final-backend-d6dq.onrender.com/api/posts/${editingPostId}`,
+        `https://discussion-forum-backend-67bc.onrender.com/api/posts/${editingPostId}`,
         { title, content },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -160,7 +160,7 @@ function PostList() {
     try {
       const token = localStorage.getItem('token');
       const response = await axios.put(
-        `https://final-backend-d6dq.onrender.com/api/posts/${postId}/replies/${replyId}`,
+        `https://discussion-forum-backend-67bc.onrender.com/api/posts/${postId}/replies/${replyId}`,
         { content: replyContent },
         { headers: { Authorization: `Bearer ${token}` } }
       );

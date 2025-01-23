@@ -13,7 +13,7 @@ function Login() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        'https://final-backend-d6dq.onrender.com/api/auth/login',
+        'https://discussion-forum-backend-67bc.onrender.com/api/auth/login',
         { username, password }
       );
 
